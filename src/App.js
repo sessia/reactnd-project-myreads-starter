@@ -3,6 +3,7 @@ import * as BooksAPI from './BooksAPI'
 import './App.css'
 import Bookshelf from './Bookshelf'
 import Library from './Library'
+import Search from './Search';
 
 class BooksApp extends React.Component {
   state = {
@@ -90,8 +91,8 @@ class BooksApp extends React.Component {
                     </ol>
                   </div>
                 </div>
-                <div className="bookshelf">
 
+                <div className="bookshelf">
                   <h2 className="bookshelf-title">Want to Read</h2>
                   <div className="bookshelf-books">
                     <ol className="books-grid">
