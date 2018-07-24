@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 class Book extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
   }
 
   render(){
