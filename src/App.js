@@ -8,9 +8,7 @@ import {Route, Link} from 'react-router-dom'
 
 class BooksApp extends React.Component {
   state = {
-    books: [],
-    query: '',
-    showingBooks: []
+
   }
 
   render() {
@@ -31,3 +29,5 @@ class BooksApp extends React.Component {
 }
 
 export default BooksApp
+
+//Thanks for the help to My Reads A book Tracking App with Edoh Webinar: https://www.youtube.com/watch?time_continue=46&v=PF8fCAKR0-I
