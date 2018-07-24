@@ -1,11 +1,12 @@
-import React from 'react'
+import React, {Component} from 'react'
+import {Link} from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import Book from './Book'
 
 class Search extends Component {
   state = {
    query: '',
-   books: []
+   books: [],
    showingBooks: []
   };
 
@@ -13,7 +14,7 @@ class Search extends Component {
 //get all the books before loading the component
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
-      this.setState({Books})
+      this.setState({books})
     })
   }
 
@@ -42,6 +43,8 @@ class Search extends Component {
   }
 
   render () {
+    const {query} = this.state
+    return(
     <div className="search-books">
       <div className="search-books-bar">
         <Link className="close-search" to="/">Close</Link>
@@ -67,6 +70,8 @@ class Search extends Component {
         <ol className="books-grid"></ol>
       </div>
     </div>
-  }
+  )}
 
-export default Search;
+}
+
+export default Search
