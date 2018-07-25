@@ -51,7 +51,7 @@ class BooksApp extends Component {
         )} />
 
         <Route exact path="/" render={() => (
-          <ListBooks books={books}
+          <ListBooks books={this.state.books}
             onUpdateShelf={(book, shelf) => this.updateShelf(book, shelf)}/>
         )}/>
 

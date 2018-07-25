@@ -1,27 +1,33 @@
 import React, {Component} from 'react';
 import Bookshelf from './Bookshelf';
+import Book from './Book';
 import {Link} from 'react-router-dom';
 
 class Library extends Component {
+
+  ChangeBook = (book, shelf) => {
+    this.props.onUpdateShelf(book, shelf)
+  }
+
+
   render () {
 
     return (
       <div className="list-books">
-
          <div className="list-books-title">
            <h1>MyReads</h1>
          </div>
 
          <div className="list-books-content">
            <div>
-
           <div className="bookshelf">
             <h2 className="bookshelf-title">Currently Reading</h2>
             <div className="bookshelf-books">
               <ol className="books-grid">
-                <li>
-
-                </li>
+                  {this.props.books.filter(book => book.shelf === 'currentlyReading')
+                      .map(book => (
+                        <Book key={book.id} book={book} onChangeBook={(book, shelf) => this.ChangeBook(book, shelf)}></Book>
+                  ))}
               </ol>
             </div>
           </div>
