@@ -6,8 +6,32 @@ import Book from './Book'
 class Search extends Component {
   state = {
    query: '',
-   books: []
+   books: [],
+   queryBooks: []
   };
+
+  updateQuery = (query) => {
+    this.setState({query: query})
+    let queryBooks = []
+    if(query) {
+      BooksAPI.search(query).then(results => {
+        if (results.length) {
+          queryBooks = results.map((book) => {
+            const index = this.state.books.findIndex(result => result.id === book.id)
+            if( index >= 0 ) {
+              return this.state.books[index]
+            } else {
+              return book
+            }
+          })
+        }
+        this.setState({queryBooks})
+      })
+    }
+    else {
+      this.setState({queryBooks})
+    }
+  }
 
   render () {
     const {query} = this.state
@@ -27,13 +51,20 @@ class Search extends Component {
           <input type="text"
               placeholder="Search by title or author"
               value={query}
+              onChange={(event) => this.updateQuery(event.target.value)}
           />
 
 
         </div>
       </div>
       <div className="search-books-results">
-        <ol className="books-grid"></ol>
+        <ol className="books-grid">
+          {this.state.queryBooks.map((book, index) => (
+            <li key={index}>
+            <Book book={book} />
+            </li>
+          ))}
+        </ol>
       </div>
     </div>
   )}
