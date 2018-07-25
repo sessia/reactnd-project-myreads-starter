@@ -1,17 +1,25 @@
-import React from 'react'
+import React, {Component} from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
+import Search from './Search'
+import ListBooks from './ListBooks'
 import Bookshelf from './Bookshelf'
-import Library from './Library'
-import Search from './Search';
+import Book from './Book'
 import {Route} from 'react-router-dom'
 
-class BooksApp extends React.Component {
-  state = {
 
+class BooksApp extends Component {
+
+  state = {
+    books: [],
+    query: '',
+    showingBooks: []
   }
 
+
+
   render() {
+    const {books} = this.state;
     return (
       <div className="app">
 
@@ -20,8 +28,8 @@ class BooksApp extends React.Component {
         )} />
 
         <Route exact path="/" render={() => (
-          <Library/>
-        )} />
+          <ListBooks books={books}/>
+        )}/>
 
       </div>
     )

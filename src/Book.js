@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
 
 class Book extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   render(){
-   const {title, authors, imageLinks} = this.props;
-   const {thumbnail} = imageLinks;
-   const {shelf} = this.state;
+   const {title, authors, book} = this.props;
 
    return(
      <div className="book">
        <div className="book-top">
-         <div className="book-cover" style={ { width: 128, height: 193, backgroundImage: `url("${ thumbnail }")` } }>
+         <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}>
          </div>
          <div className="book-shelf-changer">
              <select>
