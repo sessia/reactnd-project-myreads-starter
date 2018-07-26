@@ -5,7 +5,7 @@ class Bookshelf extends Component {
 
   render () {
 
-    const {name, books} = this.props;
+    const {name, books, UpdateShelf} = this.props;
 
     return(
        <div className="bookshelf">
@@ -15,7 +15,12 @@ class Bookshelf extends Component {
             {books.map((book) => (
               <li key={book.id}>
                 <Book
-                  book={book}
+                  id={book.id}
+                  authors={book.authors}
+                   title={book.title}
+                   imageLinks={book.imageLinks}
+                   shelf={book.shelf}
+                   onUpdateShelf={onUpdateShelf}
                 />
               </li>
             ))}
