@@ -5,13 +5,13 @@ import {Link} from 'react-router-dom';
 
 class Library extends Component {
 
-  ChangeBook = (book, shelf) => {
-    this.props.onUpdateShelf(book, shelf)
+  filterShelf = (shelf) => {
+    const { books } = this.props;
+    return books.filter((book) => book.shelf === shelf);
   }
 
-
   render () {
-
+    const { onUpdateShelf } = this.props
     return (
       <div className="list-books">
          <div className="list-books-title">
@@ -20,17 +20,18 @@ class Library extends Component {
 
          <div className="list-books-content">
            <div>
-          <div className="bookshelf">
-            <h2 className="bookshelf-title">Currently Reading</h2>
-            <div className="bookshelf-books">
-              <ol className="books-grid">
-                  {this.props.books.filter(book => book.shelf === 'currentlyReading')
-                      .map(book => (
-                        <Book key={book.id} book={book} onChangeBook={(book, shelf) => this.ChangeBook(book, shelf)}></Book>
-                  ))}
-              </ol>
-            </div>
-          </div>
+           <Bookshelf
+               name="Currently Reading"
+               books={ this.filterShelf('currentlyReading') }
+               onUpdateShelf={ onUpdateShelf } />
+             <Bookshelf
+               name="Want to Read"
+               books={ this.filterShelf('wantToRead') }
+               onUpdateShelf={ onUpdateShelf } />
+             <Bookshelf
+               name="Read"
+               books={ this.filterShelf('read') }
+               onUpdateShelf={ onUpdateShelf } />
         </div>
 
         </div>

@@ -21,15 +21,23 @@ class Book extends Component {
   };
 
   render(){
-   const {title, authors, book} = this.props;
+    const book = this.props.data
+    const {title, authors, imageLinks} = this.props;
+    const style = {
+     width: 128,
+     height: 192,
+     backgroundImage: this.props.book.imageLinks ?
+       `url(${this.props.book.imageLinks.thumbnail})` : ''
+   }
+
 
    return(
      <div className="book">
        <div className="book-top">
-         <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}>
+         <div className="book-cover" style={style}>
          </div>
          <div className="book-shelf-changer">
-             <select onChange={(event) => this.UpdateShelf(event.target.value)} value={this.state.shelf}>
+             <select onChange={(event) => this.updateShelf(event.target.value)} value={this.state.shelf}>
                <option value="move" disabled>Move to...</option>
                <option value="currentlyReading">Currently Reading</option>
                <option value="wantToRead">Want to Read</option>

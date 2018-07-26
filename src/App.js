@@ -16,28 +16,34 @@ class BooksApp extends Component {
     showingBooks: []
   }
 
-//update books on the shelf
-  UpdateShelf = (book, shelf) => {
-    BooksAPI.update(book, shelf).then(data => {
-      this.setState(({ books }) => {
-        if (books.find(b => b.id === book.id)) {
-          books = this.state.books.map(b => {
-            //if book already added change shelf
-            if (b.id === book.id) {
-              return {...book, shelf}
-            } else {
-              return b
-            }
-        })
-      }
-        else {
-          // else add the new book to the specified shelf
-          books = [...this.state.books, {...book, shelf}]
-        }
-
+//get all books
+  componentDidMount() {
+    BooksAPI.getAll().then((books) => {
       this.setState({books})
+    })
+  }
 
+//update books on the shelf
+  updateShelf = (book, shelf) => {
+    let books;
+    if (this.state.books.findIndex(b => b.id === book.id) > 0) {
+      // change the position of an existing book in the shelf
+      books = this.state.books.map(b => {
+        if (b.id === book.id) {
+          return {...book, shelf}
+        } else {
+          return b
+        }
       })
+    } else {
+      // add a new book to the shelf
+      books = [...this.state.books, {...book, shelf}]
+    }
+
+    this.setState({books})
+
+    BooksAPI.update(book, shelf).then((data) => {
+      // shelf updated on the server
     })
   }
 
@@ -48,12 +54,14 @@ class BooksApp extends Component {
       <div className="app">
 
         <Route exact path="/search" render={() => (
-          <Search/>
+          <Search
+            books={this.state.books}
+            onUpdateShelf={(book, shelf) => this.updateShelf(book, shelf)}/>
         )} />
 
         <Route exact path="/" render={() => (
           <ListBooks books={this.state.books}
-            onUpdateShelf={(book, shelf) => this.UpdateShelf(book, shelf)}/>
+            onUpdateShelf={(book, shelf) => this.updateShelf(book, shelf)}/>
         )}/>
 
       </div>
