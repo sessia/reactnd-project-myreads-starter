@@ -16,12 +16,13 @@ class BooksApp extends Component {
     showingBooks: []
   }
 
-  updateShelf = (book, shelf) => {
+//update books on the shelf
+  UpdateShelf = (book, shelf) => {
     BooksAPI.update(book, shelf).then(data => {
       this.setState(({ books }) => {
         if (books.find(b => b.id === book.id)) {
           books = this.state.books.map(b => {
-            //if book already added
+            //if book already added change shelf
             if (b.id === book.id) {
               return {...book, shelf}
             } else {
@@ -30,7 +31,7 @@ class BooksApp extends Component {
         })
       }
         else {
-          // else add the new book to the shelf
+          // else add the new book to the specified shelf
           books = [...this.state.books, {...book, shelf}]
         }
 
@@ -52,7 +53,7 @@ class BooksApp extends Component {
 
         <Route exact path="/" render={() => (
           <ListBooks books={this.state.books}
-            onUpdateShelf={(book, shelf) => this.updateShelf(book, shelf)}/>
+            onUpdateShelf={(book, shelf) => this.UpdateShelf(book, shelf)}/>
         )}/>
 
       </div>
