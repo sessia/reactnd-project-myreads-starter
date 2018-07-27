@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Bookshelf from './Bookshelf';
-import Book from './Book';
 import {Link} from 'react-router-dom';
 
 class Library extends Component {
@@ -11,7 +10,7 @@ class Library extends Component {
   }
 
   render () {
-    const { onUpdateShelf } = this.props
+    const { updateShelf } = this.props
     return (
       <div className="list-books">
          <div className="list-books-title">
@@ -23,15 +22,18 @@ class Library extends Component {
            <Bookshelf
                name="Currently Reading"
                books={ this.filterShelf('currentlyReading') }
-               onUpdateShelf={ onUpdateShelf } />
+               updateShelf={updateShelf}
+               />
              <Bookshelf
                name="Want to Read"
                books={ this.filterShelf('wantToRead') }
-               onUpdateShelf={ onUpdateShelf } />
+               updateShelf={updateShelf}
+                />
              <Bookshelf
                name="Read"
                books={ this.filterShelf('read') }
-               onUpdateShelf={ onUpdateShelf } />
+               updateShelf={updateShelf}
+                />
         </div>
 
         </div>

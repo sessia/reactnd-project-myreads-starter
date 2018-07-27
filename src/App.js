@@ -3,8 +3,6 @@ import * as BooksAPI from './BooksAPI'
 import './App.css'
 import Search from './Search'
 import ListBooks from './ListBooks'
-import Bookshelf from './Bookshelf'
-import Book from './Book'
 import {Route} from 'react-router-dom'
 
 
@@ -23,6 +21,20 @@ class BooksApp extends Component {
     })
   }
 
+  addBook = (book) => {
+      const {shelf} = book;
+
+      BooksAPI.update(book, shelf).then(this.setState({
+        books: this.state.books.concat(book)
+      }));
+
+      BooksAPI.getAll().then((books) => {
+        console.log(books);
+      });
+
+      console.log(this.state.books);
+    };
+    
 //update books on the shelf
   updateShelf = (book, shelf) => {
     let books;
@@ -53,16 +65,19 @@ class BooksApp extends Component {
     return (
       <div className="app">
 
+      <Route exact path="/" render={() => (
+        <ListBooks
+        books={books}
+        updateShelf={this.updateShelf}/>
+      )}/>
+
         <Route exact path="/search" render={() => (
           <Search
-            books={this.state.books}
-            onUpdateShelf={(book, shelf) => this.updateShelf(book, shelf)}/>
+            books={books}
+            updateShelf={this.updateShelf}/>
         )} />
 
-        <Route exact path="/" render={() => (
-          <ListBooks books={this.state.books}
-            onUpdateShelf={(book, shelf) => this.updateShelf(book, shelf)}/>
-        )}/>
+
 
       </div>
     )
