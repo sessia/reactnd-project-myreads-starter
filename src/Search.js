@@ -6,45 +6,41 @@ import Book from './Book'
 class Search extends Component {
   state = {
    query: '',
-   books: [],
    queryBooks: []
   };
 
+//search books that corresponds to the query
   updateQuery = (query) => {
     this.setState({query: query})
-    let queryBooks = []
 
     if(query) {
-      BooksAPI.search(query).then(results => {
+      BooksAPI.search(query).then((books) => {
+        //if there is an error e.g. no results then show nothing
+              if (books.error) {
+                    this.setState({ queryBooks: [] })
+                }
 
-        if (results !== undefined && results.length > 0) {
-          queryBooks = results.map((book) => {
-            const index = this.state.books.findIndex(result => result.id === book.id)
-            const shelf = index ? index.shelf : 'none';
-
-            if ( index>=0 ) {
-                  return {
-                    id: book.id,
-                    shelf: shelf,
-                    authors: book.authors,
-                    title: book.title,
-                    imageLinks: {
-                       thumbnail: book.imageLinks.thumbnail
-                    }
-                  }
-              }
               else {
-                return book;
-              }
-            })
-          }
-        this.setState({queryBooks})
-      });
-    }
-    else  {
-      this.setState({queryBooks})
-    }
-  }
+        //if find results show them
+                books.map((b) => {
+                  for (let booksInShelf of this.props.booksInLibrary) {
+								     if (booksInShelf.id === b.id) {
+									      b.shelf = booksInShelf.shelf
+                        return b
+								     }
+							    }
+                b.shelf = "none"
+                return b
+                })
+                //update state to show results
+                this.setState({ queryBooks: books })
+                }
+        })
+      } else {
+          this.setState({ queryBooks: [] })
+        }
+        return
+    };
 
   render () {
     const {query} = this.state;
@@ -58,7 +54,6 @@ class Search extends Component {
             NOTES: The search from BooksAPI is limited to a particular set of search terms.
             You can find these search terms here:
             https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
             However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
             you don't find a specific author or title. Every search is limited by search terms.
           */}
@@ -75,6 +70,11 @@ class Search extends Component {
         <ol className="books-grid">
           {this.state.queryBooks.map((book, index) => (
             <li key={index}>
+            {this.props.booksInLibrary.forEach((bookInLibrary) => {
+									if (book.id === bookInLibrary.id) {
+										book.shelf = bookInLibrary.shelf
+									}
+								})}
               <Book
                     id={book.id}
                     shelf={book.shelf}

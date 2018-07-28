@@ -11,7 +11,7 @@ class BooksApp extends Component {
   state = {
     books: [],
     query: '',
-    showingBooks: []
+    queryBooks: []
   }
 
 //get all books
@@ -23,12 +23,26 @@ class BooksApp extends Component {
 
 //update books on the shelf: credits to https://stackoverflow.com/questions/50531678/react-pass-function-as-prop
 updateShelf = (book, shelf) => {
-this.setState(prevState => {
-  const booksCopy = prevState.books.filter(b => b.id !== book.id);
-  booksCopy.push({ ...book, shelf });
-  return { books: booksCopy }
-});
-BooksAPI.update(book, shelf);
+  BooksAPI.update(book, shelf).then(() => {
+  			if (this.state.books.filter((b) => b.id === book.id).length > 0) {
+  				// book is already in the state, we only have to update his shelf
+  				this.setState((state) => ({
+  					books: state.books.map((b) => {
+  						if (b.id === book.id) {
+  							b.shelf = shelf
+  						}
+  						return b
+  					})
+  				}))
+  			} else {
+  				// book is not in the state, we have to add it
+  				BooksAPI.get(book.id).then((newBook) => {
+  					this.setState((state) => ({
+  						books: state.books.concat([newBook])
+  					}))
+  				})
+  			}
+  		})
 };
 
 
@@ -44,6 +58,7 @@ BooksAPI.update(book, shelf);
 
         <Route exact path="/search" render={() => (
           <Search
+          booksInLibrary={this.state.books}
             onUpdateShelf={this.updateShelf}/>
         )} />
 
