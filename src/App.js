@@ -21,7 +21,6 @@ class BooksApp extends Component {
     })
   }
 
-
 //update books on the shelf: credits to https://stackoverflow.com/questions/50531678/react-pass-function-as-prop
 updateShelf = (book, shelf) => {
 this.setState(prevState => {

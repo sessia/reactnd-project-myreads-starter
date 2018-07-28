@@ -28,12 +28,12 @@ class Library extends Component {
                name="Want to Read"
                books={ this.filterShelf('wantToRead') }
                onUpdateShelf={onUpdateShelf}
-                />
+              />
              <Bookshelf
                name="Read"
                books={ this.filterShelf('read') }
                onUpdateShelf={onUpdateShelf}
-                />
+              />
         </div>
 
         </div>
