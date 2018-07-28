@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Book extends Component {
 
   state = {
-    shelf: ''
+    shelf: 'none'
   }
 
   updateShelf (value){

@@ -37,7 +37,6 @@ class Search extends Component {
 };
 
   render () {
-    const {books} = this.state;
     const {query} = this.state;
     const {onUpdateShelf} = this.props;
     return(
@@ -66,14 +65,14 @@ class Search extends Component {
         <ol className="books-grid">
           {this.state.queryBooks.map((book, index) => (
             <li key={index}>
-            <Book
-                  id={book.id}
-                  shelf={book.shelf}
-                  authors={book.authors}
-                  title={book.title}
-                  imageLinks={book.imageLinks}
-                  onUpdateShelf={onUpdateShelf}
-             />
+              <Book
+                    id={book.id}
+                    shelf={book.shelf}
+                    authors={book.authors}
+                    title={book.title}
+                    imageLinks={book.imageLinks}
+                    onUpdateShelf={onUpdateShelf}
+               />
             </li>
           ))}
         </ol>
