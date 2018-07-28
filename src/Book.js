@@ -2,26 +2,13 @@ import React, { Component } from 'react';
 
 class Book extends Component {
 
-  state = {
-    shelf: ''
-  }
+  static propTypes = {
+         book: PropTypes.object.isRequired
+     }
 
-  changeBookShelf = (shelf) => {
-    const { book, updateShelf } = this.props;
-  this.setState({shelf})
-  updateShelf(book, this.props.bookshelf);
-    }
-
-
-//if book already on shelf
-componentDidMount() {
-  const { book } = this.props
-  let shelf = book.shelf?book.shelf:'none'
-  this.setState({shelf:shelf})
-}
 
   render(){
-    const { shelf } = this.state
+    const { book, updateShelf } = this.props
    return(
      <div className="book">
        <div className="book-top">
@@ -29,8 +16,7 @@ componentDidMount() {
            `url(${this.props.book.imageLinks.thumbnail})` : '' }}>
          </div>
          <div className="book-shelf-changer">
-             <select value={shelf}
-                        onChange={(event) => this.changeBookShelf(event.target.value)}>
+             <select value={book.shelf ? book.shelf : 'none'} onChange={(e) => updateShelf(book, e.target.value)}>
                <option value="move" disabled>Move to...</option>
                <option value="currentlyReading">Currently Reading</option>
                <option value="wantToRead">Want to Read</option>

@@ -21,43 +21,16 @@ class BooksApp extends Component {
     })
   }
 
-  addBook = (book) => {
-      const {shelf} = book;
 
-      BooksAPI.update(book, shelf).then(this.setState({
-        books: this.state.books.concat(book)
-      }));
-
-      BooksAPI.getAll().then((books) => {
-        console.log(books);
-      });
-
-      console.log(this.state.books);
-    };
-    
 //update books on the shelf
-  updateShelf = (book, shelf) => {
-    let books;
-    if (this.state.books.findIndex(b => b.id === book.id) > 0) {
-      // change the position of an existing book in the shelf
-      books = this.state.books.map(b => {
-        if (b.id === book.id) {
-          return {...book, shelf}
-        } else {
-          return b
-        }
-      })
-    } else {
-      // add a new book to the shelf
-      books = [...this.state.books, {...book, shelf}]
-    }
-
-    this.setState({books})
-
-    BooksAPI.update(book, shelf).then((data) => {
-      // shelf updated on the server
-    })
-  }
+updateShelf = (book, shelf) => {
+this.setState(prevState => {
+  const booksCopy = prevState.books.filter(b => b.id !== book.id);
+  booksCopy.push({ ...book, shelf });
+  return { books: booksCopy }
+});
+BooksAPI.update(book, shelf);
+};
 
 
   render() {
@@ -67,14 +40,13 @@ class BooksApp extends Component {
 
       <Route exact path="/" render={() => (
         <ListBooks
-        books={books}
-        updateShelf={this.updateShelf}/>
+        books={this.state.books}
+        onUpdateShelf={this.updateShelf}/>
       )}/>
 
         <Route exact path="/search" render={() => (
           <Search
-            books={books}
-            updateShelf={this.updateShelf}/>
+            onUpdateShelf={this.updateShelf}/>
         )} />
 
 
