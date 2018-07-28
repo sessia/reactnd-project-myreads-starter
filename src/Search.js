@@ -13,13 +13,16 @@ class Search extends Component {
   updateQuery = (query) => {
     this.setState({query: query})
     let queryBooks = []
+
     if(query) {
       BooksAPI.search(query).then(results => {
-        if (results && results.length) {
+
+        if (results !== undefined && results.length > 0) {
           queryBooks = results.map((book) => {
             const index = this.state.books.findIndex(result => result.id === book.id)
             const shelf = index ? index.shelf : 'none';
 
+            if ( index>=0 ) {
                   return {
                     id: book.id,
                     shelf: shelf,
@@ -28,13 +31,20 @@ class Search extends Component {
                     imageLinks: {
                        thumbnail: book.imageLinks.thumbnail
                     }
-                  };
-                });
-                this.setState({queryBooks});
+                  }
               }
-            });
+              else {
+                return book;
+              }
+            })
+          }
+        this.setState({queryBooks})
+      });
+    }
+    else  {
+      this.setState({queryBooks})
+    }
   }
-};
 
   render () {
     const {query} = this.state;
