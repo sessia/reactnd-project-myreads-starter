@@ -22,7 +22,7 @@ class BooksApp extends Component {
   }
 
 
-//update books on the shelf
+//update books on the shelf: credits to https://stackoverflow.com/questions/50531678/react-pass-function-as-prop
 updateShelf = (book, shelf) => {
 this.setState(prevState => {
   const booksCopy = prevState.books.filter(b => b.id !== book.id);
@@ -34,7 +34,6 @@ BooksAPI.update(book, shelf);
 
 
   render() {
-    const {books} = this.state;
     return (
       <div className="app">
 

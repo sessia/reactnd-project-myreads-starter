@@ -15,26 +15,30 @@ class Search extends Component {
     let queryBooks = []
     if(query) {
       BooksAPI.search(query).then(results => {
-        if (results.length) {
+        if (results && results.length) {
           queryBooks = results.map((book) => {
             const index = this.state.books.findIndex(result => result.id === book.id)
-            if( index >= 0 ) {
-              return this.state.books[index]
-            } else {
-              return book
-            }
-          })
-        }
-        this.setState({queryBooks})
-      })
-    }
-    else {
-      this.setState({queryBooks})
-    }
+            const shelf = index ? index.shelf : 'none';
+
+                  return {
+                    id: book.id,
+                    shelf: shelf,
+                    authors: book.authors,
+                    title: book.title,
+                    imageLinks: {
+                       thumbnail: book.imageLinks.thumbnail
+                    }
+                  };
+                });
+                this.setState({queryBooks});
+              }
+            });
   }
+};
 
   render () {
-    const {query} = this.state
+    const {books} = this.state;
+    const {query} = this.state;
     const {onUpdateShelf} = this.props;
     return(
     <div className="search-books">
@@ -62,8 +66,13 @@ class Search extends Component {
         <ol className="books-grid">
           {this.state.queryBooks.map((book, index) => (
             <li key={index}>
-            <Book book={book}
-            updateShelf={onUpdateShelf}
+            <Book
+                  id={book.id}
+                  shelf={book.shelf}
+                  authors={book.authors}
+                  title={book.title}
+                  imageLinks={book.imageLinks}
+                  onUpdateShelf={onUpdateShelf}
              />
             </li>
           ))}

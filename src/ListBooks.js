@@ -10,7 +10,7 @@ class Library extends Component {
   }
 
   render () {
-    const { updateShelf } = this.props
+    const { onUpdateShelf } = this.props
     return (
       <div className="list-books">
          <div className="list-books-title">
@@ -22,17 +22,17 @@ class Library extends Component {
            <Bookshelf
                name="Currently Reading"
                books={ this.filterShelf('currentlyReading') }
-               updateShelf={updateShelf}
+               onUpdateShelf={onUpdateShelf}
                />
              <Bookshelf
                name="Want to Read"
                books={ this.filterShelf('wantToRead') }
-               updateShelf={updateShelf}
+               onUpdateShelf={onUpdateShelf}
                 />
              <Bookshelf
                name="Read"
                books={ this.filterShelf('read') }
-               updateShelf={updateShelf}
+               onUpdateShelf={onUpdateShelf}
                 />
         </div>
 
